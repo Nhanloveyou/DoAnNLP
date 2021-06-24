@@ -8,6 +8,81 @@ Lưu ý rằng DrQA coi Wikipeadia như tập hợp các bài báo chung và kh�
 
 Kho tài liệu này bao gồm code, dữ liệu và mô hình tiền huấn luyện cho tiền xử lý và truy vấn Wikipedia như được mô tả trong bài báo -- Xem Mô hình được train và dữ liệu. Chúng tôi cũng liệt kê một số bộ dữ liệu khác nhau cho việc đánh giá, xem phần các bộ dữ liệu QA. Lưu ý rằng công việc này là được cấu trúc lại và hiệu quả hơn phiên bản code gốc. Các con số sản phẩm rất giống nhau nhưng không hoàn toàn.
 
+## Quick Start: Demo
+
+[Install](#installing-drqa) DrQA và [download](#trained-models-and-data) các mô hình của chúng tôi để bắt đầu hỏi các câu hỏi miền mở!
+
+Chạy `python scripts/pipeline/interactive.py` để tham gia một phiên tương tác. Đối với mỗi câu hỏi, khoảng trên cùng và đoạn Wikipedia được trả về.
+
+```
+>>> process('What is question answering?')
+
+Top Predictions:
++------+----------------------------------------------------------------------------------------------------------+--------------------+--------------+-----------+
+| Rank |                                                  Answer                                                  |        Doc         | Answer Score | Doc Score |
++------+----------------------------------------------------------------------------------------------------------+--------------------+--------------+-----------+
+|  1   | a computer science discipline within the fields of information retrieval and natural language processing | Question answering |    1917.8    |   327.89  |
++------+----------------------------------------------------------------------------------------------------------+--------------------+--------------+-----------+
+
+Contexts:
+[ Doc = Question answering ]
+Question Answering (QA) is a computer science discipline within the fields of
+information retrieval and natural language processing (NLP), which is
+concerned with building systems that automatically answer questions posed by
+humans in a natural language.
+```
+
+```
+>>> process('What is the answer to life, the universe, and everything?')
+
+Top Predictions:
++------+--------+---------------------------------------------------+--------------+-----------+
+| Rank | Answer |                        Doc                        | Answer Score | Doc Score |
++------+--------+---------------------------------------------------+--------------+-----------+
+|  1   |   42   | Phrases from The Hitchhiker's Guide to the Galaxy |    47242     |   141.26  |
++------+--------+---------------------------------------------------+--------------+-----------+
+
+Contexts:
+[ Doc = Phrases from The Hitchhiker's Guide to the Galaxy ]
+The number 42 and the phrase, "Life, the universe, and everything" have
+attained cult status on the Internet. "Life, the universe, and everything" is
+a common name for the off-topic section of an Internet forum and the phrase is
+invoked in similar ways to mean "anything at all". Many chatbots, when asked
+about the meaning of life, will answer "42". Several online calculators are
+also programmed with the Question. Google Calculator will give the result to
+"the answer to life the universe and everything" as 42, as will Wolfram's
+Computational Knowledge Engine. Similarly, DuckDuckGo also gives the result of
+"the answer to the ultimate question of life, the universe and everything" as
+42. In the online community Second Life, there is a section on a sim called
+43. "42nd Life." It is devoted to this concept in the book series, and several
+attempts at recreating Milliways, the Restaurant at the End of the Universe, were made.
+```
+
+```
+>>> process('Who was the winning pitcher in the 1956 World Series?')
+
+Top Predictions:
++------+------------+------------------+--------------+-----------+
+| Rank |   Answer   |       Doc        | Answer Score | Doc Score |
++------+------------+------------------+--------------+-----------+
+|  1   | Don Larsen | New York Yankees |  4.5059e+06  |   278.06  |
++------+------------+------------------+--------------+-----------+
+
+Contexts:
+[ Doc = New York Yankees ]
+In 1954, the Yankees won over 100 games, but the Indians took the pennant with
+an AL record 111 wins; 1954 was famously referred to as "The Year the Yankees
+Lost the Pennant". In , the Dodgers finally beat the Yankees in the World
+Series, after five previous Series losses to them, but the Yankees came back
+strong the next year. On October 8, 1956, in Game Five of the 1956 World
+Series against the Dodgers, pitcher Don Larsen threw the only perfect game in
+World Series history, which remains the only perfect game in postseason play
+and was the only no-hitter of any kind to be pitched in postseason play until
+Roy Halladay pitched a no-hitter on October 6, 2010.
+```
+
+Hãy tự mình thử nó. Tất nhiên, DrQA có thể cung cấp các dữ kiện thay thế, vì vậy hãy tận hưởng chuyến đi.
+
 ## Cài đặt drqa
 
 DrQA yêu cầu sử dụng Linux/OSX và python 3.5 trở lên. Nó cũng yêu cầu PyTorch phiên bản 1.0. Nó dựa trên các thư viện khác được liệt kê trong file requirements.txt. CUDA là được yêu cầu mạnh mẽ cho tốc độ, nhưng không bắt buộc.
